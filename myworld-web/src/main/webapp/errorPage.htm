@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+				<script type="text/javascript" src = "${url("${contextPath}","${thirdLibPath}","jquery","jquery-1.6.min.js")}"></script> "}
+		
+		<script type="text/javascript">
+			function showDetailInfo() {
+				if ($('.detailInfo').is(':visible')) {  
+					$('.detailInfo').hide();	
+				} else {
+					$('.detailInfo').show();	
+				}
+			};
+		</script>
+	</head>
+    <body>
+		<div style="text-align: right">
+			<a href="javascript:showDetailInfo();"> 错误详细信息 </a>
+		</div>
+		<div class="detailInfo">
+			异常信息：<br />
+			${exception.message?replace('\n', '<br/>')}	
+			<br />
+			<br />
+			异常详情:<br />
+			${exception?replace('\n', '<br/>')}	
+			<br />
+			<br />
+			堆栈信息：<br />
+			
+			${exceptionStack?replace('\n', '<br/>')}   
+			
+		</div>
+	</body>
+</html>

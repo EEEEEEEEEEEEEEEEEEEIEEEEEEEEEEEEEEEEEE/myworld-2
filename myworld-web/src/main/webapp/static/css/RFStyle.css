@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	font-size:14px;
+	font-family:"宋体";
+	color: #fff;
+	background:#B2ADB4;
+	overflow:hidden;
+}
+body,ul,li,ol,input,pre,code,h1,h2,h3,h4,h5,dl,dt,dd,p,a{
+	margin:0;
+	padding:0;
+	
+}
+li{
+	list-style: none;
+}
+
+a{
+	color: #666;
+	text-decoration:none;
+}
+a:hover{
+	color: #09F;
+}
+a.ea7 {
+	color: #005EA7;
+}
+input,img{
+	vertical-align: middle;
+}
+html {
+_overflow-x:auto; 
+_overflow-y:hidden;} /*用来隐藏html的滚动条*/
+
+img{border: 0}
+textarea{resize:none}
+.select_mo{ padding:0 5px;}
+
+.left{ float:left}
+.right{ float:right}
+.bgfff{ background:#FFF}
+.un_right{ display:inline-block; height:16px; width:16px; background:url(../images/userico.gif) no-repeat;vertical-align: middle; margin-left:10px;}
+
+
+/* 清除浮动 */
+.clearfix { display: inline-table; zoom:1;}
+* html .clearfix { height:1%; }
+* html .clearfix { zoom:1; }
+.clearfix { display:block; }
+.clear {clear: both;}
+.clearfix:after { content: " "; display: block; height: 0; clear: both; visibility: hidden; line-height: 0px;}
+
+
+/*公共*/
+a.a-submit{ height:24px;padding:0 10px; display:inline-block; font-size:12px; color:#FFF; line-height:24px; background:#5C545C; border:#5C545C solid 1px; margin-right:10px; float:right}
+a.home{ width:26px; height:26px; display:inline-block; background:url(../images/home.gif) no-repeat; margin-right:10px; float:right}
+a.mb{ width:22px; height:22px; display:inline-block; background:url(../images/ico.gif) no-repeat;vertical-align: inherit;}
+a.a-btnlist{ height:26px;padding:0 20px; display:inline-block; font-size:14px; color:#FFF; line-height:26px; background:#5C545C; border:#5C545C solid 1px; }
+a.a-btnlist:hover,a.a-submit:hover{ color:#FFF;}
+
+input.inp{ height:18px; width:150px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; float:left}
+input.inp-d{ height:18px; width:69px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; margin-right:6px; float:left}
+input.inp-d2{ height:18px; width:96px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; margin-right:5px; float:left}
+input.inp-ds{ height:18px; width:43px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; margin-right:5px; float:left}
+input.dsb{ background:#eee; color:#111}
+
+
+select.select-def{ height:24px; width:156px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; float:left}
+select.select-d{ height:24px; width:73px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; float:left}
+
+select.select-yy{ height:24px; width:58px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; margin-right:4px; float:left}
+select.select-mm{ height:24px; width:45px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; margin-right:4px; float:left}
+select.select-dd{ height:24px; width:45px; border:#968C96 solid 1px; line-height:18px; padding:2px; font-size:12px; float:left}
+
+span.span-font{ font-size:14px; padding-left:10px; font-weight:bold}
+
+.tab-list{ marign-left:10px;}
+.tab-list tr td{ color:#333; font-size:12px; padding:4px;}
+.b{ font-weight:bold}
+
+
+.main-table{ width:100%; height:235px;  overflow-y:auto; }
+
+.header{ height:32px; background:url(../images/RF-headerBG.jpg) repeat-x; text-align:center; border-bottom:#88858C solid 1px; line-height:32px; color:#FFF; font-size:14px}
+.main{ width:210px; margin:0 auto; padding-top:40px;}
+.main ul li{ height:40px;}
+.main ul li span{ height:24px; width:42px; display:block; float:left; line-height:24px; color:#FFF; font-size:14px;}
+
+
+.main-menu{ overflow: auto;}

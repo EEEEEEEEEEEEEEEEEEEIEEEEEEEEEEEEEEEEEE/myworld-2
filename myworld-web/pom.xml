@@ -1,0 +1,183 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+<!--   <groupId>com.diligrp.wms</groupId> -->
+<!--   <version>1.0-20150814-SNAPSHOT</version> -->
+  <artifactId>myworld-web</artifactId>
+  <description>我的世界web</description>
+	<properties>
+		<project.build.sourceEncoding>
+			UTF-8
+		</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+        <spring.version>3.2.2.RELEASE</spring.version>
+	</properties>
+	
+	<!-- 父工程定义 -->
+	<parent>
+	    <artifactId>myworld</artifactId>
+	    <groupId>com.artist</groupId>
+	    <version>1.0-SNAPSHOT</version> 
+	  </parent>
+	 
+	
+	<build>
+		<!-- 资源文件过滤 -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<!-- 编译JDK版本 -->
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>src/main/assembly/assembly.xml</descriptor>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 打war包插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+				<!-- 把classes目录下的代码打包成jar -->
+				<archiveClasses>false</archiveClasses>
+				</configuration>
+				<!-- 
+				<configuration>
+					<warSourceExcludes>WEB-INF/lib/log4j-${log4j.version}.jar</warSourceExcludes> 
+				</configuration>
+				 -->
+			</plugin>
+<!-- 			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>8.1.12.v20130726</version>
+				<configuration>
+					<contextPath>/</contextPath>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8080</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+				</configuration>
+			</plugin> -->
+		</plugins>
+	</build>
+
+	<dependencies>
+
+	<!-- jetty -->
+	<dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-webapp</artifactId>
+		<version>8.1.12.v20130726</version>
+	</dependency>
+	<!-- 
+     <dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.25</version>
+	</dependency>
+	 -->
+	<dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	    <version>1.1.7</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.5</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>2.2</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.6</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>2.4</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.jfinal</groupId>
+		<artifactId>jfinal</artifactId>
+		<version>2.0</version>
+	</dependency>
+	<!-- 
+	<dependency>
+	    <groupId>com.jfinal</groupId>
+	    <artifactId>jfinal-ext</artifactId>
+	    <version>3.1.2</version>
+	</dependency>
+	 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>0.2.6</version>
+	</dependency>
+	<dependency>
+		<groupId>org.beetl</groupId>
+		<artifactId>beetl-core</artifactId>
+		<version>2.2.3</version>
+	</dependency>
+	
+	<dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-pool2</artifactId>
+      <version>2.2</version>
+	  </dependency>
+	   
+	  <dependency>
+	    <groupId>redis.clients</groupId>
+	    <artifactId>jedis</artifactId>
+	    <version>2.7.2</version>
+	  </dependency>
+	 
+	
+	
+	<!-- if you enable json support in spring mvc. -->
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.8</version>
+	</dependency>
+		
+</dependencies>
+	
+	
+	<packaging>${project.packaging}</packaging>
+</project>

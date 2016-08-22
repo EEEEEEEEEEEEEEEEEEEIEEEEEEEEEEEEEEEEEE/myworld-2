@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd"
+       default-autowire="byName">
+
+	<context:component-scan base-package="com.artist.helper.tag,com.artist.helper.common.tag"/>
+	<context:component-scan base-package="com.artist.helper.virtualattribute"/>
+	<context:component-scan base-package="com.artist.helper.domain"/>
+	<!-- 启动Spring注解配置支持，启动后BeetlViewResolver会自动调用init方法，不需要特殊配置 -->
+	<context:annotation-config/>
+	<!-- mvc controller -->
+	<context:component-scan base-package="com.artist.helper.controller,com.artist.helper.common.controller" />
+	<context:component-scan base-package="com.artist.helper.restful" />
+<!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
+
+	<mvc:resources location="/assets/**" mapping="/assets/**" />
+	<mvc:default-servlet-handler/>
+	<!-- Spring MVC配置 -->
+	<mvc:annotation-driven>
+
+        <mvc:message-converters register-defaults="true">
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+
+    </mvc:annotation-driven>
+	<!-- Beetl视图解析器
+	<bean name="beetlViewResolver" class="org.beetl.ext.spring.BeetlSpringViewResolver">
+	        <property name="suffix" value=".html"/>
+	        <property name="contentType" value="text/html;charset=UTF-8"/>
+	        <property name="config" ref="beetlConfig"/>
+	</bean>
+
+	<bean name="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
+	        <property name="configFileResource" value="classpath:conf/beetl.properties"/>
+	        <property name="root" value="/WEB-INF/template/"/>
+	</bean>
+	 --> 
+	<!-- 第一个GroupTemplate，模板放在Webapp下 -->
+	<bean name="groupTemplate" class="com.artist.beetl.ext.spring.core.GroupTemplateFactoryBean">
+		<property name="configFileResource" value="classpath:conf/beetl.properties"/>
+		
+		<property name="resourceLoader">
+			<bean class="com.artist.beetl.ext.spring.resource.SpringServletContextResourceLoader"/>
+		</property>
+		
+		<!-- 异常处理器		
+		<property name="errorHandler">
+			<bean class="org.beetl.core.ConsoleErrorHandler"/>
+		</property>
+		-->
+		
+		<property name="sharedVars">
+			<!-- 也可以自己写<map>设置，这里是直接加载一个Properties文件内容 -->
+			<util:properties location="classpath:sharedVars.properties"/>
+		</property>
+		
+		<!-- 自定义Function，允许把function实现对象由Spring管理，以获取Spring的特性 -->
+		<property name="functions">
+			<map>
+				<entry key="spel"><bean class="com.artist.beetl.ext.spring.function.SpELFunction"/></entry>
+			</map>
+		</property>
+		
+		<!-- 自定义格式化器和类型默认格式化器 -->
+		<property name="formats">
+			<map>
+				<entry key="dataFormatEx"><bean class="org.beetl.ext.format.DateFormat"/></entry>
+			</map>
+		</property>
+		<property name="typeFormats">
+			<map>
+				<entry key="java.util.Date"><bean class="org.beetl.ext.format.DateFormat"/></entry>
+			</map>
+		</property>
+		
+		 <!-- 自定义标签，额外提供了一个SpringBeanTagFactory将Spring的Bean作为Tag对象交给Beetl处理 -->
+		<property name="tagFactorys">
+			<map>
+				<entry key="user">
+					<bean class="com.artist.beetl.ext.spring.tag.SpringBeanTagFactory">
+						<property name="name" value="userNameTag"/>
+					</bean>
+				</entry>
+				<entry key="host">
+					<bean class="com.artist.beetl.ext.spring.tag.SpringBeanTagFactory">
+						<property name="name" value="hostTag"/>
+					</bean>
+				</entry>
+				<entry key="port">
+					<bean class="com.artist.beetl.ext.spring.tag.SpringBeanTagFactory">
+						<property name="name" value="portTag"/>
+					</bean>
+				</entry>
+				<entry key="warehouse">
+					<bean class="com.artist.beetl.ext.spring.tag.SpringBeanTagFactory">
+						<property name="name" value="warehouseTag"/>
+					</bean>
+				</entry>
+			</map>
+		</property>
+		
+		<!-- 自定义函数包
+		<property name="functionPackages">
+			<map>
+				<entry key="StringUtil"><bean class="com.artist.helper.utils.StringUtil"/></entry>
+			</map>
+		</property>
+		 -->
+		 
+		<!-- 自定义虚拟属性执行器 -->
+<!-- 		<property name="virtualAttributeEvals"> -->
+<!-- 			<list> -->
+<!-- 		        <ref bean="customVirtualAttributeEval"/> -->
+<!-- 		    </list> -->
+<!-- 		</property> -->
+		<!-- 自定义虚拟属性
+		<property name="virtualClassAttributes">
+			<map>
+				<entry key="com.diligrp.inventory.domain.OrderIn"><bean class="com.diligrp.inventory.virtualattribute.OrderInAttribute"/></entry>
+			</map>
+		</property> -->
+	</bean>
+	
+	<!-- 第二个GroupTemplate，模板放在Classpath下 -->
+	<bean name="cpGroupTemplate" class="com.artist.beetl.ext.spring.core.GroupTemplateFactoryBean">
+		<property name="configFileResource" value="classpath:conf/beetl.properties"/>
+		
+		<property name="resourceLoader">
+			<bean class="org.beetl.core.resource.ClasspathResourceLoader"/>
+		</property>
+		
+	</bean>
+	
+	<!-- 创建一个普通Bean -->
+	<bean name="urlEnDecoder" class="com.artist.helper.utils.UrlEnDecoder"/>
+	
+	<!-- 定义一个Tag实现Bean，注意scope应该为prototype，他被上文org.fox.beetl.ext.spring.tag.SpringBeanTagFactory引用
+	<bean name="spelTag" class="...." scope="prototype"/>
+	-->
+		
+	<!-- Beetl视图解析器1 -->
+	<bean name="beetlViewResolver" class="com.artist.beetl.ext.spring.mvc.BeetlViewResolver">
+		<!-- 多视图解析器，需要设置viewNames和order -->
+		<property name="viewNames">
+			<list>
+				<value>template/**</value>
+			</list>
+		</property>
+		<property name="order" value="0"/>
+		<!-- 多GroupTemplate，需要指定使用的bean -->
+		<property name="groupTemplate" ref="groupTemplate"/>
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".html"/>
+	</bean>
+	
+	<!-- Beetl视图解析器2 -->
+	<bean name="cpBeetlViewResolver" class="com.artist.beetl.ext.spring.mvc.BeetlViewResolver">
+		<!-- 多视图解析器，需要设置viewNames和order -->
+		<property name="viewNames">
+			<list>
+				<value>cptemplate/**</value>
+			</list>
+		</property>
+		<property name="order" value="1"/>
+		<!-- 多GroupTemplate，需要指定使用的bean -->
+		<property name="groupTemplate" ref="cpGroupTemplate"/>
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".html"/>
+	</bean>
+	
+	<!-- 默认视图解析器 -->
+	<bean name="DefaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 注意JSP的这个视图解析器order必须在最后 -->
+		
+		<property name="order" value="256"/>
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".html"/>
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+<!-- 		<property name="contentType" value="text/html;charset=UTF-8"/> -->
+	</bean>
+	
+    <!-- 文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+	<!-- locale related -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="_clientlocale" />
+		<property name="defaultLocale" value="zh_CN" />
+		<property name="cookieMaxAge" value="2147483647" />
+	</bean>
+
+	<!-- Access resource bundles with the specified basename -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames" value="/WEB-INF/i18n/content,/WEB-INF/i18n/validation,/WEB-INF/i18n/asset,/WEB-INF/i18n/enum" />
+		<property name="cacheSeconds" value="5" />
+	</bean>
+
+    <bean id="dateFormatUtils" class="com.artist.helper.common.controller.DateFormatUtils" />
+	<!--
+	<bean id="beetlTools" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="dateFormatUtils" value-ref="dateFormatUtils" />
+				<entry key="domain" value="http://artist.helper.com/" />
+			</map>
+		</constructor-arg>
+	</bean>
+	-->
+    <!-- log gathering 日志切面
+	<bean id="logGatheringAdviser" class="com.diligrp.log.util.LogGatheringAdvisor" >
+		<constructor-arg name="system" value="inventory_web_log"/>
+	</bean>
+	 -->
+	
+</beans>
