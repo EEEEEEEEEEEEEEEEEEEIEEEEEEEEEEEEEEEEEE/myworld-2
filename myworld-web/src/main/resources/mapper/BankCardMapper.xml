@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.artist.myworld.dao.BankCardDao">
+    <resultMap id="BankCardMap" type="com.artist.myworld.domain.BankCard">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="cardType" column="card_type"/>
+        <result property="accountType" column="account_type"/>
+        <result property="accountName" column="account_name"/>
+        <result property="idNumber" column="id_number"/>
+        <result property="addTime" column="add_time"/>
+        <result property="bankCity" column="bank_city"/>
+        <result property="subbranch" column="subbranch"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="bank" column="bank"/>
+        <result property="isDefault" column="is_default"/>
+    </resultMap>
+
+
+    <!-- templete 所有查询列 -->
+    <sql id="QUERY_COLUMN_LIST">
+        `id`,`user_id`,`card_type`,`account_type`,`account_name`,`id_number`,`add_time`,`bank_city`,`subbranch`,`card_number`,`bank`,`is_default`
+    </sql>
+
+    <!-- templete 查询列来源表-->
+    <sql id="QUERY_FROM_TABLE"><![CDATA[FROM bank_card]]></sql>
+
+    <!-- 全部条件(更多功能可以通过queryData扩展实现)  -->
+    <sql id="QUERY_WHERE_CLAUSE">
+        <where>
+            1 = 1
+            <if test="id != null and id != ''">
+                and `id` = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and `user_id` = #{userId}
+            </if>
+            <if test="cardType != null and cardType != ''">
+                and `card_type` = #{cardType}
+            </if>
+            <if test="accountType != null and accountType != ''">
+                and `account_type` = #{accountType}
+            </if>
+            <if test="accountName != null and accountName != ''">
+                and `account_name` = #{accountName}
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                and `id_number` = #{idNumber}
+            </if>
+            <if test="addTime != null and addTime != ''">
+                and `add_time` = #{addTime}
+            </if>
+            <if test="bankCity != null and bankCity != ''">
+                and `bank_city` = #{bankCity}
+            </if>
+            <if test="subbranch != null and subbranch != ''">
+                and `subbranch` = #{subbranch}
+            </if>
+            <if test="cardNumber != null and cardNumber != ''">
+                and `card_number` = #{cardNumber}
+            </if>
+            <if test="bank != null and bank != ''">
+                and `bank` = #{bank}
+            </if>
+            <if test="isDefault != null and isDefault != ''">
+                and `is_default` = #{isDefault}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 智能排序与分页 -->
+    <sql id="QUERY_ORDER_LIMIT_CONDTION">
+        <if test="orderField != null and orderField != '' and orderFieldType != null and orderFieldType != ''"><![CDATA[ORDER BY `${orderField}` ${orderFieldType}]]></if>
+        <if test="startIndex != null and startIndex &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startIndex},#{pageSize}]]></if>
+    </sql>
+
+    <!-- 更新列字段,只要不为NULL则更新,除开主键列 -->
+    <sql id="UPDATE_COLUMN_SET">
+        <set>
+            <if test="userId != null and userId != ''">
+                `user_id`=#{userId},
+            </if>
+            <if test="cardType != null and cardType != ''">
+                `card_type`=#{cardType},
+            </if>
+            <if test="accountType != null and accountType != ''">
+                `account_type`=#{accountType},
+            </if>
+            <if test="accountName != null and accountName != ''">
+                `account_name`=#{accountName},
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                `id_number`=#{idNumber},
+            </if>
+            <if test="addTime != null and addTime != ''">
+                `add_time`=#{addTime},
+            </if>
+            <if test="bankCity != null and bankCity != ''">
+                `bank_city`=#{bankCity},
+            </if>
+            <if test="subbranch != null and subbranch != ''">
+                `subbranch`=#{subbranch},
+            </if>
+            <if test="cardNumber != null and cardNumber != ''">
+                `card_number`=#{cardNumber},
+            </if>
+            <if test="bank != null and bank != ''">
+                `bank`=#{bank},
+            </if>
+            <if test="isDefault != null and isDefault != ''">
+                `is_default`=#{isDefault}
+            </if>
+        </set>
+    </sql>
+
+    <!-- 批量更新列字段,只要不为NULL则更新,除开主键列 -->
+    <sql id="BATCH_UPDATE_COLUMN_SET">
+        <set>
+            <if test="item.userId != null ">
+                `user_id`=#{item.userId},
+            </if>
+            <if test="item.cardType != null ">
+                `card_type`=#{item.cardType},
+            </if>
+            <if test="item.accountType != null ">
+                `account_type`=#{item.accountType},
+            </if>
+            <if test="item.accountName != null and item.accountName != ''">
+                `account_name`=#{item.accountName},
+            </if>
+            <if test="item.idNumber != null and item.idNumber != ''">
+                `id_number`=#{item.idNumber},
+            </if>
+            <if test="item.addTime != null ">
+                `add_time`=#{item.addTime},
+            </if>
+            <if test="item.bankCity != null ">
+                `bank_city`=#{item.bankCity},
+            </if>
+            <if test="item.subbranch != null and item.subbranch != ''">
+                `subbranch`=#{item.subbranch},
+            </if>
+            <if test="item.cardNumber != null and item.cardNumber != ''">
+                `card_number`=#{item.cardNumber},
+            </if>
+            <if test="item.bank != null and item.bank != ''">
+                `bank`=#{item.bank},
+            </if>
+            <if test="item.isDefault != null ">
+                `is_default`=#{item.isDefault}
+            </if>
+        </set>
+    </sql>
+
+    <insert id="insert" parameterType="com.artist.myworld.domain.BankCard" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+        <![CDATA[
+		INSERT INTO bank_card(
+            `user_id`,
+            `card_type`,
+            `account_type`,
+            `account_name`,
+            `id_number`,
+            `add_time`,
+            `bank_city`,
+            `subbranch`,
+            `card_number`,
+            `bank`,
+            `is_default`
+		) VALUES(
+            #{userId},
+            #{cardType},
+            #{accountType},
+            #{accountName},
+            #{idNumber},
+            #{addTime},
+            #{bankCity},
+            #{subbranch},
+            #{cardNumber},
+            #{bank},
+            #{isDefault}
+		)
+		]]>
+    </insert>
+
+    <insert id="batchInsert">
+        INSERT INTO bank_card(
+        `user_id`,
+        `card_type`,
+        `account_type`,
+        `account_name`,
+        `id_number`,
+        `add_time`,
+        `bank_city`,
+        `subbranch`,
+        `card_number`,
+        `bank`,
+        `is_default`
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.userId},
+            #{item.cardType},
+            #{item.accountType},
+            #{item.accountName},
+            #{item.idNumber},
+            #{item.addTime},
+            #{item.bankCity},
+            #{item.subbranch},
+            #{item.cardNumber},
+            #{item.bank},
+            #{item.isDefault}
+            )
+        </foreach>
+
+    </insert>
+
+
+
+
+    <!-- 返回插入的编号,在事务开启状态下有效 -->
+    <select id="lastSequence" resultType="int"><![CDATA[SELECT LAST_INSERT_ID() AS id]]></select>
+
+    <!-- 删除记录,主键IN(array) -->
+    <delete id="del" parameterType="java.lang.reflect.Array" >
+        DELETE
+        <include refid="QUERY_FROM_TABLE"/>
+        WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 删除,通过条件 -->
+    <update id="deleteByCondtion" parameterType="com.artist.myworld.domain.BankCard" >
+        DELETE
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+    </update>
+
+    <!-- 修改记录通过主键 -->
+    <update id="update" parameterType="com.artist.myworld.domain.BankCard" >
+        UPDATE bank_card
+        <include refid="UPDATE_COLUMN_SET"/>
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="batchUpdate"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE bank_card
+            <include refid="BATCH_UPDATE_COLUMN_SET"/>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+
+
+    <!-- 查询,通过主键IN(array) -->
+    <select id="get" parameterType="Long"  resultMap="BankCardMap">
+        SELECT
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+        WHERE
+        1 = 1
+        and id = #{id}
+    </select>
+
+    <!-- 查询,通过条件 -->
+    <select id="list" parameterType="com.artist.myworld.domain.BankCard" resultMap="BankCardMap">
+        <![CDATA[SELECT]]>
+        <include refid="QUERY_COLUMN_LIST"/>
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+        <include refid="QUERY_ORDER_LIMIT_CONDTION"/>
+    </select>
+
+    <!-- 总数查询,通过条件 -->
+    <select id="listCount" parameterType="com.artist.myworld.domain.BankCard" resultType="int">
+        <![CDATA[SELECT COUNT(id) AS dataCount]]>
+        <include refid="QUERY_FROM_TABLE"/>
+        <include refid="QUERY_WHERE_CLAUSE"/>
+    </select>
+
+    <!-- 其它SQL语句 -->
+
+
+</mapper>
