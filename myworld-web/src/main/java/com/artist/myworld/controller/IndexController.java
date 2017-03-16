@@ -37,7 +37,7 @@ public class IndexController {
     @Autowired
     private BankCardDao bankCardDao;
 
-    @Resource
+    @Autowired
     private UserRpc userRpc;
     @ApiOperation(value="展示用户详细信息", notes="根据id来指定对象")
     @ApiImplicitParams({
